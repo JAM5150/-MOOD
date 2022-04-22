@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+</head>
+
+<body>
+    <form action="methods">
+        <label for="songinfo">음악검색하기</label>
+        <input type="text" id="songinfo" class="whatToSearch" placeholder="검색">
+        <button type="button" onclick="addMusicList()">검색</button>
+    </form>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+<script>
+    function addMusicList() {
+         let musicKeyWord = $('#songinfo').val()
+        $.ajax({
+            type: 'GET',
+            url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track='+musicKeyWord+'&api_key=4ca74f82ebf478a4a3b97a6dcbe412bd&format=json',
+            success: function (response) {
+                alert("ajax success")
+                 let musicList = response["results"]["trackmatches"]["track"];
+                 for (let i = 0; i < musicList.length; i++) {
+                //     let albumImg = musicList[i]["image"][0]["#text"]
+                     let albumTitle = musicList[i]["name"]
+                     let albumArtist = musicList[i]["artist"]
+                     console.log(albumTitle, albumArtist)
+                 }
+            }
+        })
+    }
+</script>
+
+</html>
