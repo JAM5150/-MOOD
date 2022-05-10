@@ -24,7 +24,7 @@ src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ
          $('.musicList').empty()
         $.ajax({
             type: 'GET',
-            url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track='+musicKeyWord+'&api_key=4ca74f82ebf478a4a3b97a6dcbe412bd&format=json',
+            url: 'http://ws.audioscrobbler.com/2.0/?method=track.search&track='+musicKeyWord+'&api_key= &format=json',
             success: function (response) {
                  let musicList = response["results"]["trackmatches"]["track"];
                  for (let i = 0; i < musicList.length; i++) {
