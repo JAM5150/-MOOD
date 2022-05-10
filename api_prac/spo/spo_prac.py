@@ -12,19 +12,10 @@ artist = "소녀시대"
 
 #serach함수 형식 -> name:artist, limit=(int), type='album,track'   (= artist가 포함된 album, track정보)
 #정보 검색, limit=1로하여 가장 상단의 아티스트만
-result = sp.search(artist, limit=1, type='artist,track')
-#pprint.pprint(result)
+result = sp.search(artist, limit=1, type='artist,track') #이거 함수 나누니까 sp안먹힌다 why..
+pprint.pprint(result)
 
 #artist_info = requests.get('https://api.spotify.com/v1/search', headers={'Authorization': 'Bearer {token}'.format(token=access_token)},params={ 'q': artist, 'type': 'artist' })
-
-
-results = sp.artist_top_tracks(lz_uri)
-for track in result['tracks'][:1]:
-    print('track    : ' + track['name'])
-    print('audio    : ' + track['preview_url'])
-    print('cover art: ' + track['album']['images'][0]['url'])
-    print()
-
 
 #아티스트의 고유id알아내기
 '''
