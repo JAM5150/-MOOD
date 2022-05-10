@@ -9,7 +9,9 @@ client_secret = "5a27ae1f3ff84d0394015556a63aadbe"
 client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-result = sp.search("coldplay", limit=1, type='artist')
+artist_name = "소녀시대"
+
+result = sp.search(artist_name, limit=3, type='artist')
 pprint.pprint(result)
 
 id = result['artists']['items'][0]['id']
