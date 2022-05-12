@@ -1,8 +1,3 @@
-import os.path
-import sys
+CLIENT_ID = 'ee12035224474264be168146ae120d5b'
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-CLIENT_ID = ' '
-
-CLIENT_SECRET = ' '
+CLIENT_SECRET = '5a27ae1f3ff84d0394015556a63aadbe'
