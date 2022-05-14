@@ -17,12 +17,9 @@ pprint.pprint(album_names)
 print()
 #serach함수 형식 -> name:artist, limit=(int), type='album,track'   (= artist가 포함된 album, track정보)
 #정보 검색, limit=1로하여 가장 상단의 아티스트만
-result = sp.search(artist_name, limit=1, type='track')
-pprint.pprint(result)
+#result = sp.search(artist_name, limit=1, type='track')
+#pprint.pprint(result)
 
+album_names = album_names[0]
 
-
-'''
-for i in len(album_names):
-    get_album_art(album_name=album_names[i], album_img_url_dict=album_img_url_dict,album_cover_path='./')
-'''
+get_album_art(album_name=album_names, album_img_url_dict=album_img_url_dict,album_cover_path='./')
