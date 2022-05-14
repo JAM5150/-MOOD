@@ -1,18 +1,8 @@
 '''앨범 세부사항 '''
 def get_album_details(sp, artist_name):
-    """Gets details for all of the albums for the specified artist
-
-    :param sp: Spotify object
-    :type sp: object
-    :param artist_name: Artist to query for
-    :type artist_name: str
-    :returns: album_names: List of album names
-        album_name_dict: Dictionary mapping album names to album uri values
-        album_img_url_dict: Dictionary mapping album names to album cover urls
-    :rtype: (list, dict, dict)
-
     """
-
+    :rtype: (list, dict, dict)
+    """
     result = sp.search(artist_name)  # search query
 
     # Extract Artist's uri
