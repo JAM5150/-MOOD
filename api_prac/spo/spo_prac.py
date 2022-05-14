@@ -4,20 +4,20 @@ import pprint
 
 from spotify_credentials import CLIENT_ID, CLIENT_SECRET
 from get_spotify_access import get_spotify_credentials
+from get_albums_details import get_album_details
+from get_album_art import get_album_art
 
 sp = get_spotify_credentials(CLIENT_ID, CLIENT_SECRET)
 
-# BTS / spotify web에 접속하면 알 수 있는 아티스트 아이디
-#lz_uri = 'spotify:artist:3Nrfpe0tUJi4K4DXYWgMUX'
-
-#검색할 정보 입력 (아티스트|노래)
-#artist= input('입력하세요: ')
 artist = "소녀시대"
+print(get_album_details(sp, artist))
 
+'''
 #serach함수 형식 -> name:artist, limit=(int), type='album,track'   (= artist가 포함된 album, track정보)
 #정보 검색, limit=1로하여 가장 상단의 아티스트만
 result = sp.search(artist, limit=1, type='track')
 pprint.pprint(result)
+'''
 
 #artist_info = requests.get('https://api.spotify.com/v1/search', headers={'Authorization': 'Bearer {token}'.format(token=access_token)},params={ 'q': artist, 'type': 'artist' })
 
