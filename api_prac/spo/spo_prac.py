@@ -2,7 +2,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pprint
 
-from spotipy.oauth2 import SpotifyClientCredentials
 from spotify_credentials import CLIENT_ID, CLIENT_SECRET
 from get_spotify_access import get_spotify_credentials
 
