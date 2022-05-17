@@ -23,4 +23,4 @@ def get_album_details(sp, artist_name):
     album_name_dict = dict(zip(album_names, album_uris)) #앨범이름:앨범uri
     album_img_url_dict = dict(zip(album_names, album_img_urls)) #앨범이름:앨범아트
 
-    return album_names, album_name_dict, album_img_url_dict
+    return album_names, album_name_dict, album_img_url_dict, artist_uri
