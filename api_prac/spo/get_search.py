@@ -15,7 +15,8 @@ def get_search(sp, search):
         tracks_id.append(result['tracks']['items'][i]['id'])
         tracks_name.append(result['tracks']['items'][i]['name'])
         tracks_image.append(result['tracks']['items'][i]['album']['images'][0]['url'])
+        tracks_genres.append(result['tracks']['items'][i]['artist'][0]['genres'])
 
     song_infor_dict = zip(artist_name, tracks_id, tracks_name, tracks_image)
 
-    return artist_id, artist_name, tracks_id, tracks_name, tracks_image, song_infor_dict
+    return artist_id, artist_name, tracks_id, tracks_name, tracks_image,tracks_genres, song_infor_dict
