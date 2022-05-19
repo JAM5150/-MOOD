@@ -12,7 +12,6 @@ sp = get_spotify_credentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 result = sp.search('소녀시대', limit=1, type='track')
 pprint.pprint(result)
 
-
 #artist_info = requests.get('https://api.spotify.com/v1/search', headers={'Authorization': 'Bearer {token}'.format(token=access_token)},params={ 'q': artist, 'type': 'artist' })
 
 #아티스트의 고유id알아내기
