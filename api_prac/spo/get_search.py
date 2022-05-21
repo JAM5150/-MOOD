@@ -2,7 +2,6 @@ def get_search(sp, search):
     #return type : list, list, list, list, list, zip(tuple)
     result = sp.search(search,type='track')
 
-    track = []
     artist_id=[] #artist의 고유 id(추천함수 및 분류에 사용)
     artist_name=[] #artist 이름
     tracks_id=[] #트랙의 id (추천함수 및 분류에 사용)
