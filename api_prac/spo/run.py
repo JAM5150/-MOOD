@@ -21,7 +21,7 @@ tracks_id = tracks_id[s]
 tracks_name = tracks_name[s]
 tracks_image = tracks_image[s]
 
-artistname, tracks, tracks_img, recommend = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=tracks_id)
+artist_id, artistname, tracks, track_id, tracks_img, recommend = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=tracks_id)
 
 pprint.pprint(recommend)
 print(list(recommend))

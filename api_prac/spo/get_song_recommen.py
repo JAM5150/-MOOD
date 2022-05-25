@@ -1,5 +1,5 @@
 def get_song_recommen (sp, artist_id, artist_name, track_id): #(sp, artist_id, genres, tracks_id)
-    #return type : list, list, list, zip(tuple)
+    #return type : list, list, list, any, zip(tuple)
 
     #장르 구하기
     result = sp.search(artist_name, type='track')
@@ -26,4 +26,4 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #(sp, artist_id, g
 
     recommend_song = zip(artist_name, tracks, tracks_img)
 
-    return artist_name, tracks, tracks_img, recommend_song
+    return artist_id, artist_name, tracks, track_id, tracks_img, recommend_song
