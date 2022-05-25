@@ -6,9 +6,24 @@ from get_song_recommen import get_song_recommen
 from spotify_credentials import CLIENT_ID, CLIENT_SECRET
 import pprint
 
-sp = get_spotify_credentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
-search_for = 'WEEKEND'
+#예외 처리 필요 
 
-artist_id, artist_name, tracks_id, tracks_name, tracks_image, genre, search_result = get_search(sp=sp, search=search_for)
+sp = get_spotify_credentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+
+search_for = 'IU'
+
+artist_id, artist_name, tracks_id, tracks_name, tracks_image, search_result = get_search(sp=sp, search=search_for)
+
+s = 1 #선택
+artist_id = artist_id[s]
+artist_name = artist_name[s]
+tracks_id = tracks_id[s]
+tracks_name = tracks_name[s]
+tracks_image = tracks_image[s]
+
+artistname, tracks, tracks_img, recommend = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=tracks_id)
+
+pprint.pprint(recommend)
+print(list(recommend))
 
 #recommend = get_song_recommen(sp=sp, artist_id=artist_id, genre=genre, track_id=tracks_id )
