@@ -14,7 +14,7 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #(sp, artist_id, g
     genre = ''.join(map(str, genre))
 
     #아티스트 아이디, 장르, 트랙 입력하면 음악 추천해주는 함수
-    rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=5)
+    rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=3)
     artist_name = []
     tracks = []
     tracks_img = []
