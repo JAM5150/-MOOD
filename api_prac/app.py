@@ -14,7 +14,6 @@ def post_echo_call():
     param = request.get_json()
     return jsonify(param)
 
-
 @app.route('/userLogin', methods = ['POST'])
 def userLogin():
     user = request.get_json()#json 데이터를 받아옴
@@ -23,7 +22,6 @@ def userLogin():
 @app.route('/environments/<language>')
 def environments(language):
     return jsonify({"language":language})
- 
  
 if __name__ == "__main__":
     app.run()
