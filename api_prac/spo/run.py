@@ -5,6 +5,7 @@ from get_search import get_search
 from get_song_recommen import get_song_recommen
 from spotify_credentials import CLIENT_ID, CLIENT_SECRET
 import pprint
+import json
 
 #예외 처리 필요 
 
@@ -23,7 +24,11 @@ tracks_image = tracks_image[s]
 
 artist_id, artistname, tracks, track_id, tracks_img, recommend = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=tracks_id)
 
-pprint.pprint(recommend)
-print(list(recommend))
+reco = list(recommend)
+pprint.pprint(reco)
+jsons = json.dumps(reco)
+print()
+pprint.pprint(jsons)
+
 
 #recommend = get_song_recommen(sp=sp, artist_id=artist_id, genre=genre, track_id=tracks_id )

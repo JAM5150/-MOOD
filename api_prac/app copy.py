@@ -1,4 +1,6 @@
-from flask import Flask, request, jsonify
+from concurrent.futures import thread
+from operator import methodcaller
+from flask import Flask, render_template, request, jsonify, json, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 CLIENT_ID = ' '
@@ -32,18 +34,34 @@ def get_search(sp, search):
     return artist_id, artist_name, tracks_id, tracks_name, tracks_image, song_infor_dict    
 
 @app.route('/')#test_api
-def hello_world():
-    return 'Hello, World!'
+def main_get(inputr=None):
+    return render_template('search_test.html', input=input)
+
+'''
+@app.route("/user",methods=['GET', 'POST'])
+def post():
+	if(request.method =='GET'):
+		return render_template('input.html')
+
+	elif(request.method == 'POST'):
+		value = request.form['input']
+		return render_template('default.html', name=value)
+'''   
 
 #음악검색 GET, POST
-@app.route('/search', methods=['GET, POST'])
-def search():
-    search_for = request.get_json()
-    request.on_json_loading_failed = on_json_loading_failed_return_dict
-    artist_id, artist_name, tracks_id, tracks_name, tracks_image, search_result = get_search(sp=sp, search=search_for)
-    listre = list(search_result)
-    print(listre.text)
-    return jsonify(listre)
+@app.route('/search', methods=['GET', 'POST'])
+def search(input = None):
+    if request.method=='POST':
+        pass
+    elif request.method=='GET':
+        ##검색어 넘겨받기
+        search_for = request.args.get("input")
+        #return render_template('searchresult.html', name = search_for)
+        request.on_json_loading_failed = on_json_loading_failed_return_dict
+        artist_id, artist_name, tracks_id, tracks_name, tracks_image, search_result = get_search(sp=sp, search=search_for)
+        listre = list(search_result)
+        jsonString = json.dumps(listre)
+        return render_template('search_test.html', input=search_for, result=jsonString)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True, threaded=True)

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        노래 검색하기
+    </title>
+</head>
+</head>
+<body>
+    <h1> 어떤 노래를 검색하실건가요</h1><br>
+    <form method="GET" action="/search">
+        <div>
+            <label for="input"> 검색할 노래 </label>
+            <input type="text" name="input">
+        </div>
+        <div class='button'>
+            <button type="submit">검색하기</button>
+        </div>
+    </form>
+    <div>
+        <p>
+            {% if input == None %}
+                <h5> 아직 아무 값도 입력이 안되었습니다. </h5>
+            {% else %}
+                <h5> {{input}} 를 입력받았습니다. </h5>
+                <p>
+                    {{result}}
+                </p>
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>
