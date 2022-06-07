@@ -1,5 +1,6 @@
 from concurrent.futures import thread
 from operator import methodcaller
+from textwrap import indent
 from flask import Flask, render_template, request, jsonify, json, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -65,8 +66,8 @@ def search():
     request.on_json_loading_failed = on_json_loading_failed_return_dict ##예외처리
     search_result = get_search(sp=sp, search=search_for) ##검색함수
     #검색결과(가수이름, 노래제목, 앨범아트) dict->json형태로 변환
-    jsonString = json.dumps(search_result, default=str)
-    return jsonify(jsonString)
+    jsonString = json.dumps(search_result, default=str, indent=5, sort_keys = True)
+    return jsonString
 
 #음악추천
 @app.route('/recommend', methods=['GET','POST'])
