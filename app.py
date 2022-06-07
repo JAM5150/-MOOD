@@ -11,26 +11,20 @@ app = Flask(__name__)
 def on_json_loading_failed_return_dict(e):  
     return {}
 def get_search(sp, search):
-    #return type : list, list, list, list, list, zip(tuple)
+    #return type : dict
     result = sp.search(search,type='track')
-
-    artist_id=[] #artist의 고유 id(추천함수 및 분류에 사용)
-    artist_name=[] #artist 이름
-    tracks_id=[] #트랙의 id (추천함수 및 분류에 사용)
-    tracks_name=[] #노래제목
-    tracks_image=[] #트랙의 앨범이미지url
+    search_dict = {"artist_id" : [], "artist_name" : [], "tracks_id" : [], "tracks_name":[], "tracks_image":[]};
 
     for i in range(len(result['tracks']["items"])):
-        artist_id.append(result["tracks"]["items"][i]["artists"][0]["id"]) 
-        artist_name.append(result['tracks']['items'][i]['artists'][0]['name']) 
-        tracks_id.append(result['tracks']['items'][i]['id'])
-        tracks_name.append(result['tracks']['items'][i]['name'])
-        tracks_image.append(result['tracks']['items'][i]['album']['images'][0]['url'])
+        search_dict["artist_id"].append({result["tracks"]["items"][i]["artists"][0]["id"]})
+        search_dict["artist_name"].append(result['tracks']['items'][i]['artists'][0]['name']) 
+        search_dict["tracks_id"].append(result['tracks']['items'][i]['id'])
+        search_dict["tracks_name"].append(result['tracks']['items'][i]['name'])
+        search_dict["tracks_image"].append(result['tracks']['items'][i]['album']['images'][0]['url'])
 
-    song_infor = zip(artist_name, tracks_name, tracks_image) #보여줄 검색결과
+    return search_dict
 
-    return artist_id, artist_name, tracks_id, tracks_name, tracks_image, song_infor 
-def get_song_recommen (sp, artist_id, artist_name, track_id): #북마크했던 노래의 정보 기반으로 추천, 노래 정보를 전달받음
+def get_song_recommen (sp, artist_id, artist_name, track_id): #북마크했던 노래의 아티스트 정보 기반으로 추천
     #return type : list, list, list, any, zip(tuple)
     #장르 구하기
     result = sp.search(artist_name, type='track') #전달받은 아티스트의 정보 그대로 검색(초기 검색할때와 동일)
@@ -67,18 +61,17 @@ def main_get():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     search_for = request.json
-    search_for = search_for['search']
+    search_for = search_for['search'] ##BODY에 들어갈 내용 { "search" : "검색어 " }
     request.on_json_loading_failed = on_json_loading_failed_return_dict ##예외처리
-    artist_id, artist_name, tracks_id, tracks_name, tracks_image, search_result = get_search(sp=sp, search=search_for) ##검색함수
-    #검색결과(가수이름, 노래제목, 앨범아트) zip->list->json형태로 변환
-    listre = list(search_result)
-    jsonString = json.dumps(listre)
-    return jsonString
+    search_result = get_search(sp=sp, search=search_for) ##검색함수
+    #검색결과(가수이름, 노래제목, 앨범아트) dict->json형태로 변환
+    jsonString = json.dumps(search_result, default=str)
+    return jsonify(jsonString)
 
 #음악추천
 @app.route('/recommend', methods=['GET','POST'])
 def recommend():
-    Bookmark = request.json
+    Bookmark = request.json ##BODY에 들어갈 내용 { "artist_id" : "아티스트id", "artist_name" : "아티스트이름", "track_id" : "트랙id" }
     request.on_json_loading_failed = on_json_loading_failed_return_dict #예외처리
     artist_id = Bookmark['artist_id']
     artist_name = Bookmark['artist_name']
