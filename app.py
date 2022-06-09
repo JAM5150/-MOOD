@@ -4,8 +4,6 @@ from textwrap import indent
 from flask import Flask, render_template, request, jsonify, json, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-CLIENT_ID = ' '
-CLIENT_SECRET = ' '
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 app = Flask(__name__)
@@ -41,18 +39,14 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #북마크했던 �
     genre = ''.join(map(str, genre))
     #아티스트 아이디, 장르, 트랙 입력하면 음악 추천해주는 recommendations
     rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=3)
-    artist_name = []
-    tracks = []
-    tracks_img = []
+    rec_dict = {"artist_name" : [], "tracks_name":[], "tracks_image":[]};
     #track_prev = []
     for track in rec['tracks']:
-        artist_name.append(track['artists'][0]['name'])
-        tracks.append(track['name'])
-        tracks_img.append(track['album']['images'][0]['url'])
+        rec_dict["artist_name"].append(track['artists'][0]['name'])
+        rec_dict["tracks_name"].append(track['name'])
+        rec_dict["tracks_image"].append(track['album']['images'][0]['url'])
         #track_prev.append(track['preview_url'])
-
-    recommend_song = zip(artist_name, tracks, tracks_img)
-    return artist_id, artist_name, tracks, track_id, tracks_img, recommend_song
+    return rec_dict
 
 @app.route('/')#basic
 def main_get():
@@ -72,16 +66,15 @@ def search():
 #음악추천
 @app.route('/recommend', methods=['GET','POST'])
 def recommend():
-    Bookmark = request.json ##BODY에 들어갈 내용 { "artist_id" : "아티스트id", "artist_name" : "아티스트이름", "track_id" : "트랙id" }
+    Bookmark = request.json ##BODY에 들어갈 내용 { "artist_id" : "아티스트id", "artist_name" : "아티스트이름", "track_id" : "트랙id" } //DB보고 후에 수정
     request.on_json_loading_failed = on_json_loading_failed_return_dict #예외처리
     artist_id = Bookmark['artist_id']
     artist_name = Bookmark['artist_name']
     track_id = Bookmark['track_id']
 
-    artist_id, artist_name, tracks, track_id, tracks_img, recommend_song = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=track_id)
-    recommend_song = list(recommend_song)
-    recommend_song = json.dumps(recommend_song)
+    recommend_song = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=track_id)
+    recommend_song = json.dumps(recommend_song, default=str, indent=5, sort_keys = True)
     return recommend_song
 
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True)
+    app.run(debug=True, threaded=True, host='0.0.0.0', port=80)
