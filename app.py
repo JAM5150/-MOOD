@@ -4,6 +4,8 @@ from textwrap import indent
 from flask import Flask, render_template, request, jsonify, json, url_for
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+CLIENT_ID = ' '
+CLIENT_SECRET = ' '
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 app = Flask(__name__)
