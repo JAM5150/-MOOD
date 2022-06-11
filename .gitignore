@@ -1,0 +1,9 @@
+goorm.manifest
+
+# kobert_from_pretrained
+.cache/
+
+__pycache__/
+
+# our_model
+model/
