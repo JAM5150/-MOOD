@@ -122,8 +122,7 @@ def cleaning(line):
     return refinedText
 
 
-def predict(predict_sentence):
-    
+def predict(predict_sentence):  
     predict_sentence = cleaning(predict_sentence)
     data = [predict_sentence, '0']
     dataset_another = [data]
@@ -148,15 +147,18 @@ def predict(predict_sentence):
             logits=i
             logits = logits.detach().cpu().numpy()
 
-            if np.argmax(logits) == 0: # 분노
+            preds = np.array(logits) 
+            pred_class = np.argmax(preds) # preds 배열의 최댓값 인덱스
+               
+            if pred_class == 0: # 분노
                 test_eval.append("angry")
-            elif np.argmax(logits) == 1: # 슬픔
+            elif pred_class == 1: # 슬픔
                 test_eval.append("sad")
-            elif np.argmax(logits) == 2: # 중립
+            elif pred_class == 2: # 중립
                 test_eval.append("soso")
-            elif np.argmax(logits) == 3: # 행복
+            elif pred_class == 3: # 행복
                 test_eval.append("happy")
-            elif np.argmax(logits) == 4: # 즐거움
+            elif pred_class == 4: # 즐거움
                 test_eval.append("joy")
 
         return test_eval[0]
