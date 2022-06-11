@@ -59,7 +59,7 @@ class BERTClassifier(nn.Module):
     def __init__(self,
                  bert,
                  hidden_size = 768,
-                 num_classes=5, ##클래스 수 조정##
+                 num_classes=5, # class 5개로 분류(5가지 감정)
                  dr_rate=None,
                  params=None):
         super(BERTClassifier, self).__init__()
@@ -101,10 +101,10 @@ loss_fn = nn.CrossEntropyLoss()
 
 # 학습한 모델 불러오기
 PATH = '/workspace/mood_flask/model/'
-model = torch.load(PATH + 'our_emotions_bert_model.pt') # 전체 모델을 통째로 불러옴, 클래스 선언 필수
-model.load_state_dict(torch.load(PATH + 'our_emotions_bert_model_state_dict.pt'))  # state_dict를 불러 온 후, 모델에 저장
+model = torch.load(PATH + '5emotions_bert_model.pt') # 전체 모델을 통째로 불러옴, 클래스 선언 필수
+model.load_state_dict(torch.load(PATH + '5emotions_bert_model_state_dict.pt'))  # state_dict를 불러 온 후, 모델에 저장
 
-checkpoint = torch.load(PATH + 'our_emotions_bert_all.tar') # dict 불러오기
+checkpoint = torch.load(PATH + '5emotions_bert_all.tar') # dict 불러오기
 model.load_state_dict(checkpoint['model'])
 optimizer.load_state_dict(checkpoint['optimizer'])
 
