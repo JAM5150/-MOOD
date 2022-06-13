@@ -1,8 +1,6 @@
 package com.example.backend.model;
 
 import io.swagger.annotations.ApiModelProperty;
-
-
 public class BasicResponse {
     @ApiModelProperty(value = "status", position = 1)
     public boolean status;

@@ -20,6 +20,7 @@ public class MusicDto {
     private int mid;
     private String musicTitle;
     private String musicAritst;
+    private String ArtistId;
     private String videoId;
     private String musicGenre;
     private LocalDate date;

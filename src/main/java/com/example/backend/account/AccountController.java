@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.example.backend.user.UserDao;
+import com.example.backend.dao.user.UserDao;
 import com.example.backend.model.BasicResponse;
 import com.example.backend.model.user.SignupRequest;
 import com.example.backend.model.user.User;
@@ -33,14 +33,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AccountController {
 
     @Autowired
-    UserDao userDao;
+    UserDao UserDao;
 
     @GetMapping("/account/login")
     @ApiOperation(value = "로그인")
     public Object login(@RequestParam(required = true) final String email,
                         @RequestParam(required = true) final String password) {
 
-        Optional<User> userOpt = userDao.findUserByEmailAndPassword(email, password);
+        Optional<User> userOpt = UserDao.findUserByEmailAndPassword(email, password);
 
         ResponseEntity response = null;
 

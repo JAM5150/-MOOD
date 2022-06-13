@@ -13,4 +13,6 @@ public interface MusicDao extends JpaRepository<MusicInfo,String> {
     List<MusicInfo> getMusicInfoByMusicGenre(String MusicGenre);
 
     MusicInfo getMusicInfoByMid(int mid);
+
+    MusicInfo getMusicInfoBymusicId(String ArtistId);
 }

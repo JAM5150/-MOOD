@@ -9,8 +9,21 @@ jpa:
 
 
 logging:
+  config: classpath:logback.xml
   level:
     com:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYOKZDBPM2SQCDEBR
+      secretKey: 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
+    s3:
+      bucket: moodiary
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

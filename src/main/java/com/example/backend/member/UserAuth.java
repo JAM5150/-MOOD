@@ -1,5 +1,4 @@
 package com.example.backend.member;
-
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +21,7 @@ public class UserAuth {
     @Column(nullable = false, length = 25)
     private String emailCompany;
 
-//	@OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL)
-//	@PrimaryKeyJoinColumn
-//	private UserProfile userProfile;
+	@OneToOne(mappedBy = "userAuth", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private UserProfile userProfile;
 }

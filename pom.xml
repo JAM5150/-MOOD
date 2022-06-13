@@ -8,11 +8,11 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>backend</artifactId>
+    <groupId>com.example.backend</groupId>
+    <artifactId>webbackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend</name>
-    <description>backend</description>
+    <name>webbackend</name>
+    <description>Web backend project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
         <spring-cloud-gcp.version>3.2.1</spring-cloud-gcp.version>

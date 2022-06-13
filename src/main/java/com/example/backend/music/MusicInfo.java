@@ -29,6 +29,10 @@ public class MusicInfo {
     private String musicArtist;
 
     @Column(nullable = false, length = 255)
+    private String ArtistId;
+
+
+    @Column(nullable = false, length = 255)
     private String videoId;
 
     @Column(nullable = false, length = 20)
@@ -36,4 +40,6 @@ public class MusicInfo {
 
     @Column(nullable = false, length = 255)
     private String filePath;
+
+
 }

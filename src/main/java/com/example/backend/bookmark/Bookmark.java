@@ -25,4 +25,7 @@ public class Bookmark {
 
     @Column(nullable = false, length = 32)
     private String musicArtist;
+
+    @Column(nullable = false, length = 32)
+    private String ArtistId;
 }

@@ -38,7 +38,7 @@ public class ProfileService {
     public List<MusicDto> getMyPlayList(String id){
         Sort sort =sortByDate();
         List<MusicDto> result=new ArrayList<MusicDto>();
-        UserAuth userAuth=memberAuthDao.getUserAuthByUid(id);
+        UserAuth userAuth= MemberAuthDao.getUserAuthByUid(id);
         List<Diary> tmp_DiaryList=diaryDao.getDiaryByUserAuthAndIsDeletedIsFalse(userAuth,sort);
         for(int i=0;i<tmp_DiaryList.size();i++) {
             MusicDto musicDto=new MusicDto();
@@ -52,18 +52,38 @@ public class ProfileService {
     public List<DiaryDto> getMyDiary(String id){
         Sort sort = sortByDate();
         List<DiaryDto> result =new ArrayList<DiaryDto>();
-        UserAuth userAuth=memberAuthDao.getUserAuthByUid(id);
+        UserAuth userAuth= MemberAuthDao.getUserAuthByUid(id);
         List<Diary> tmp_DiaryList=diaryDao.getDiaryByUserAuthAndIsDeletedIsFalse(userAuth,sort);
         for(int i=0;i<tmp_DiaryList.size();i++) {
             DiaryDto tmpDiaryDto=new DiaryDto();
             DiaryAnalytics diaryAnalytics = diaryAnalyticsDao.getDiaryAnalyticsByDiary(tmp_DiaryList.get(i));
             DiaryAnalyticsSentiment diaryAnalyticsSentiment=diaryAnalyticsSentimentDao.getDiaryAnalyticsSentimentByDiary(tmp_DiaryList.get(i));
             DiaryMusic diaryMusic=diaryMusicDao.getDiaryMusicByDiary(tmp_DiaryList.get(i));
-            tmpDiaryDto=DiaryAdapater.entityToDto(diaryAnalytics, diaryAnalyticsSentiment, tmp_DiaryList.get(i), diaryMusic);
+            tmpDiaryDto=DiaryAdapter.entityToDto(diaryAnalytics, diaryAnalyticsSentiment, tmp_DiaryList.get(i), diaryMusic);
             result.add(tmpDiaryDto);
         }
 
         return result;
     }
 
+    public List<DiaryAnalyticsSentiment> getMYReportSentiment(String id,LocalDate startDate,LocalDate endDate){
+        List<DiaryAnalyticsSentiment> result =new ArrayList<DiaryAnalyticsSentiment>();
+        UserAuth userAuth= MemberAuthDao.getUserAuthByUid(id);
+        List<Diary>  tmpDiaryList=diaryDao.findDiaryByUserAuthAndIsDeletedIsFalseAndDiaryDateBetween(userAuth, startDate, endDate);
+        for(int i=0;i<tmpDiaryList.size();i++) {
+            DiaryAnalyticsSentiment diaryAnalyticsSentiment=diaryAnalyticsSentimentDao.getDiaryAnalyticsSentimentByDiary(tmpDiaryList.get(i));
+
+            result.add(diaryAnalyticsSentiment);
+        }
+        return result;
+    }
+    public int getMYReportDiary(String id,LocalDate startDate,LocalDate endDate) {
+        UserAuth userAuth= MemberAuthDao.getUserAuthByUid(id);
+        List<Diary>  tmpDiaryList=diaryDao.findDiaryByUserAuthAndIsDeletedIsFalseAndDiaryDateBetween(userAuth, startDate, endDate);
+        return tmpDiaryList.size();
+    }
+
+    private static Sort sortByDate() {
+        return Sort.by(Sort.Direction.DESC,"diaryDate");
+    }
 }
