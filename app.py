@@ -1,7 +1,6 @@
 from concurrent.futures import thread
 from operator import methodcaller
-from textwrap import indent
-from flask import Flask, render_template, request, jsonify, json, url_for
+from flask import Flask, request,  json
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 CLIENT_ID = ' '
@@ -9,9 +8,10 @@ CLIENT_SECRET = ' '
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 app = Flask(__name__)
-def on_json_loading_failed_return_dict(e):  
+
+def on_json_loading_failed_return_dict(e):   #예외처리
     return {}
-def get_search(sp, search):
+def get_search(sp, search): #음악검색함수
     #return type : dict
     result = sp.search(search,type='track')
     search_dict = {"artist_id" : [], "artist_name" : [], "tracks_id" : [], "tracks_name":[], "tracks_image":[]};
@@ -25,9 +25,9 @@ def get_search(sp, search):
 
     return search_dict
 
-def get_song_recommen (sp, artist_id, artist_name, track_id): #북마크했던 노래의 아티스트 정보 기반으로 추천
-    #return type : list, list, list, any, zip(tuple)
-    #장르 구하기
+def get_song_recommen (sp, artist_id, artist_name, track_id): #추천 함수
+    #return type : dict
+
     result = sp.search(artist_name, type='track') #전달받은 아티스트의 정보 그대로 검색(초기 검색할때와 동일)
     track = result['tracks']['items'][0]
     for i in range(len(result['tracks']['items'])):
@@ -39,15 +39,16 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #북마크했던 �
                 genre = ''
         break
     genre = ''.join(map(str, genre))
+
     #아티스트 아이디, 장르, 트랙 입력하면 음악 추천해주는 recommendations
     rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=3)
     rec_dict = {"artist_name" : [], "tracks_name":[], "tracks_image":[]};
-    #track_prev = []
+    
     for track in rec['tracks']:
         rec_dict["artist_name"].append(track['artists'][0]['name'])
         rec_dict["tracks_name"].append(track['name'])
         rec_dict["tracks_image"].append(track['album']['images'][0]['url'])
-        #track_prev.append(track['preview_url'])
+    
     return rec_dict
 
 @app.route('/')#basic
@@ -61,6 +62,7 @@ def search():
     search_for = search_for['search'] ##BODY에 들어갈 내용 { "search" : "검색어 " }
     request.on_json_loading_failed = on_json_loading_failed_return_dict ##예외처리
     search_result = get_search(sp=sp, search=search_for) ##검색함수
+
     #검색결과(가수이름, 노래제목, 앨범아트) dict->json형태로 변환
     jsonString = json.dumps(search_result, default=str, indent=5, sort_keys = True)
     return jsonString
@@ -68,7 +70,7 @@ def search():
 #음악추천
 @app.route('/recommend', methods=['GET','POST'])
 def recommend():
-    Bookmark = request.json ##BODY에 들어갈 내용 { "artist_id" : "아티스트id", "artist_name" : "아티스트이름", "track_id" : "트랙id" } //DB보고 후에 수정
+    Bookmark = request.json ##BODY에 들어갈 내용 { "artist_id" : "아티스트id", "artist_name" : "아티스트이름", "track_id" : "트랙id" }
     request.on_json_loading_failed = on_json_loading_failed_return_dict #예외처리
     artist_id = Bookmark['artist_id']
     artist_name = Bookmark['artist_name']
