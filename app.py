@@ -42,15 +42,16 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #추천 함수
 
     #아티스트 아이디, 장르, 트랙 입력하면 음악 추천해주는 recommendations
     rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=3)
-    rec_dict = {"artist_name" : [], "tracks_name":[], "tracks_image":[]};
+    rec_dict = {"artist_name" : [], "tracks_id":[], "tracks_name":[], "tracks_image":[], "tracks_prev":[]};
     
     for track in rec['tracks']:
         rec_dict["artist_name"].append(track['artists'][0]['name'])
+        rec_dict["tracks_id"].append(track['id'])
         rec_dict["tracks_name"].append(track['name'])
         rec_dict["tracks_image"].append(track['album']['images'][0]['url'])
-    
+        rec_dict["tracks_prev"].append(track['preview_url'])
     return rec_dict
-
+        
 @app.route('/')#basic
 def main_get():
     return 'Hello World!'
@@ -78,7 +79,7 @@ def recommend():
 
     recommend_song = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=track_id)
     recommend_song = json.dumps(recommend_song, default=str, indent=5, sort_keys = True)
-    return recommend_song
+    return artist_id, recommend_song
 
 if __name__ == "__main__":
     app.run(debug=True, threaded=True, host='0.0.0.0', port=80)
