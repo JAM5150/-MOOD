@@ -42,12 +42,13 @@ def get_song_recommen (sp, artist_id, artist_name, track_id): #추천 함수
 
     #아티스트 아이디, 장르, 트랙 입력하면 음악 추천해주는 recommendations
     rec = sp.recommendations(seed_artists=[artist_id], seed_genres=[genre], seed_tracks=[track_id], limit=3)
-    rec_dict = {"artist_name" : [], "tracks_id":[], "tracks_name":[], "tracks_image":[], "tracks_prev":[]};
+    rec_dict = {"artist_name" : [],"artist_id":[],  "tracks_name":[], "tracks_id":[],"tracks_image":[], "tracks_prev":[]};
     
     for track in rec['tracks']:
         rec_dict["artist_name"].append(track['artists'][0]['name'])
-        rec_dict["tracks_id"].append(track['id'])
+        rec_dict["artist_id"].append(track['artist'][0]['id'])
         rec_dict["tracks_name"].append(track['name'])
+        rec_dict["tracks_id"].append(track['id'])
         rec_dict["tracks_image"].append(track['album']['images'][0]['url'])
         rec_dict["tracks_prev"].append(track['preview_url'])
     return rec_dict
