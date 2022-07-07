@@ -79,7 +79,7 @@ def recommend():
 
     recommend_song = get_song_recommen(sp=sp, artist_id=artist_id, artist_name=artist_name, track_id=track_id)
     recommend_song = json.dumps(recommend_song, default=str, indent=5, sort_keys = True)
-    return artist_id, recommend_song
+    return recommend_song
 
 if __name__ == "__main__":
     app.run(debug=True, threaded=True, host='0.0.0.0', port=80)
